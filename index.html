@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Priyanka B — Software Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f0f0e;
+      --surface: #181817;
+      --card: #1e1e1c;
+      --border: rgba(255,255,255,0.09);
+      --border-hover: rgba(26,158,117,0.5);
+      --ink: #e8e6df;
+      --muted: #9c9a92;
+      --faint: #5f5e5a;
+      --accent: #1db882;
+      --accent-dim: rgba(29,184,130,0.1);
+      --accent-border: rgba(29,184,130,0.25);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    .wrapper { max-width: 860px; margin: 0 auto; padding: 0 2rem; }
+
+    /* Nav */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(15,15,14,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 0.5px solid var(--border);
+      padding: 0.75rem 0;
+    }
+    .nav-inner {
+      max-width: 860px; margin: 0 auto; padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    }
+    .nav-logo { font-family: 'DM Serif Display', serif; font-size: 16px; color: var(--ink); text-decoration: none; }
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+    .nav-links a {
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* Hero */
+    .hero { padding: 5rem 0 3.5rem; border-bottom: 0.5px solid var(--border); margin-bottom: 3rem; }
+    .eyebrow {
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1.25rem;
+    }
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.8rem, 7vw, 5rem);
+      font-weight: 400; line-height: 1.02; color: var(--ink); margin-bottom: 1.5rem;
+    }
+    .hero h1 em { font-style: italic; color: var(--accent); }
+    .hero-bio { font-size: 16px; font-weight: 300; color: var(--muted); line-height: 1.75; max-width: 540px; margin-bottom: 2rem; }
+    .hero-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      padding: 6px 14px; border: 0.5px solid var(--border);
+      border-radius: 99px; color: var(--muted); background: transparent; cursor: default;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .chip:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+    .chip.highlight { border-color: var(--accent-border); color: var(--accent); background: var(--accent-dim); }
+
+    /* Section */
+    section { margin-bottom: 3.5rem; }
+    .section-label {
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--faint); margin-bottom: 1.5rem;
+      padding-bottom: 0.6rem; border-bottom: 0.5px solid var(--border);
+    }
+
+    /* Skills */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
+    .skill-card {
+      background: var(--surface); border: 0.5px solid var(--border);
+      border-radius: 10px; padding: 14px 16px;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .skill-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+    .skill-cat { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+    .skill-tags { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+    /* Projects */
+    .project-list { display: flex; flex-direction: column; gap: 14px; }
+    .project-card {
+      background: var(--card); border: 0.5px solid var(--border);
+      border-radius: 14px; padding: 1.5rem;
+      position: relative; overflow: hidden;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .project-card::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 3px; background: var(--accent); opacity: 0; transition: opacity 0.2s;
+    }
+    .project-card:hover { border-color: var(--border-hover); transform: translateX(4px); }
+    .project-card:hover::before { opacity: 1; }
+    .project-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+    .project-name { font-family: 'DM Serif Display', serif; font-size: 19px; font-weight: 400; color: var(--ink); }
+    .project-stack {
+      font-family: 'DM Mono', monospace; font-size: 10px; color: var(--accent);
+      padding: 4px 10px; background: var(--accent-dim);
+      border: 0.5px solid var(--accent-border); border-radius: 99px;
+      white-space: nowrap; flex-shrink: 0; margin-top: 2px;
+    }
+    .project-bullets { list-style: none; }
+    .project-bullets li {
+      font-size: 13.5px; font-weight: 300; color: var(--muted);
+      line-height: 1.65; padding: 2.5px 0 2.5px 16px; position: relative;
+    }
+    .project-bullets li::before { content: '—'; position: absolute; left: 0; color: var(--accent); font-size: 11px; top: 5px; }
+
+    /* Experience */
+    .exp-card {
+      background: var(--card); border: 0.5px solid var(--border);
+      border-radius: 14px; padding: 1.5rem; transition: border-color 0.2s;
+    }
+    .exp-card:hover { border-color: var(--border-hover); }
+    .exp-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 1rem; flex-wrap: wrap; }
+    .exp-role { font-family: 'DM Serif Display', serif; font-size: 19px; font-weight: 400; color: var(--ink); }
+    .exp-company { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--accent); margin-top: 3px; }
+    .exp-date { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--faint); white-space: nowrap; padding: 4px 10px; border: 0.5px solid var(--border); border-radius: 99px; }
+    .exp-bullets { list-style: none; }
+    .exp-bullets li { font-size: 13.5px; font-weight: 300; color: var(--muted); line-height: 1.65; padding: 2.5px 0 2.5px 16px; position: relative; }
+    .exp-bullets li::before { content: '—'; position: absolute; left: 0; color: var(--accent); font-size: 11px; top: 5px; }
+
+    /* Education */
+    .edu-timeline { display: flex; flex-direction: column; gap: 12px; }
+    .edu-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 560px) { .edu-row { grid-template-columns: 1fr; } }
+    .edu-card {
+      background: var(--surface); border: 0.5px solid var(--border);
+      border-radius: 14px; padding: 1.25rem;
+      display: flex; gap: 12px; align-items: flex-start; transition: border-color 0.2s;
+    }
+    .edu-card:hover { border-color: var(--border-hover); }
+    .edu-card--highlight { border-color: var(--accent-border); background: var(--accent-dim); }
+    .edu-badge {
+      font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.08em;
+      color: var(--accent); background: var(--accent-dim);
+      border: 0.5px solid var(--accent-border); border-radius: 6px;
+      padding: 3px 6px; flex-shrink: 0; margin-top: 3px;
+    }
+    .edu-body { flex: 1; }
+    .edu-deg { font-family: 'DM Serif Display', serif; font-size: 15px; font-weight: 400; color: var(--ink); line-height: 1.3; margin-bottom: 4px; }
+    .edu-uni { font-size: 12px; font-weight: 300; color: var(--muted); margin-bottom: 10px; line-height: 1.5; }
+    .edu-score-row { display: flex; align-items: baseline; gap: 6px; }
+    .edu-gpa { font-family: 'DM Mono', monospace; font-size: 1.6rem; color: var(--accent); font-weight: 500; letter-spacing: -0.02em; line-height: 1; }
+    .edu-gpa-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--faint); letter-spacing: 0.08em; }
+
+    /* Certs */
+    .info-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: 14px; padding: 1.5rem; }
+    .cert-list { list-style: none; }
+    .cert-list li {
+      font-size: 12.5px; font-weight: 300; color: var(--muted);
+      padding: 7px 0; border-bottom: 0.5px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    }
+    .cert-list li:last-child { border-bottom: none; }
+    .cert-issuer {
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      color: var(--accent); background: var(--accent-dim);
+      padding: 2px 8px; border-radius: 99px; flex-shrink: 0;
+    }
+    .cert-link {
+      text-decoration: none;
+      border: 0.5px solid var(--accent-border);
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .cert-link:hover { background: rgba(29,184,130,0.22); border-color: var(--accent); }
+
+    /* Publication */
+    .pub-card {
+      background: var(--accent-dim); border: 0.5px solid var(--accent-border);
+      border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 3.5rem;
+    }
+    .pub-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+    .pub-title { font-size: 14px; font-weight: 400; color: var(--ink); line-height: 1.5; margin-bottom: 4px; }
+    .pub-meta { font-size: 12px; font-weight: 300; color: var(--muted); }
+
+    /* Footer */
+    footer { border-top: 0.5px solid var(--border); padding: 2.5rem 0 3rem; }
+    .footer-inner { max-width: 860px; margin: 0 auto; padding: 0 2rem; }
+    .footer-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .footer-name { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--ink); }
+    .footer-links { display: flex; gap: 10px; flex-wrap: wrap; }
+    .contact-item {
+      display: flex; align-items: center; gap: 6px;
+      font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted);
+      padding: 7px 14px; border: 0.5px solid var(--border); border-radius: 99px;
+      text-decoration: none; transition: border-color 0.2s, color 0.2s;
+    }
+    .contact-item:hover { border-color: var(--accent); color: var(--accent); }
+    .footer-copy { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--faint); letter-spacing: 0.05em; }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .hero { padding: 3.5rem 0 2.5rem; }
+      .project-header { flex-direction: column; gap: 6px; }
+    }
+
+    /* Fade-in */
+    .fade-in { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">Priyanka B.</a>
+      <ul class="nav-links">
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <div class="wrapper">
+
+      <!-- Hero -->
+      <div class="hero">
+        <div class="eyebrow">Software Engineer · Backend &amp; APIs</div>
+        <h1>Priyanka B<br><em>Aspiring Software Engineer</em></h1>
+        <p class="hero-bio">Experienced in designing scalable RESTful APIs with Java &amp; Spring Boot. Passionate about backend and frontend architecture, cloud integrations, and clean, testable code across the full SDLC in Agile environments.</p>
+        <div class="hero-chips">
+          <span class="chip highlight">Java</span>
+          <span class="chip highlight">Spring Boot</span>
+          <span class="chip">REST APIs</span>
+          <span class="chip">JWT &amp; RBAC</span>
+          <span class="chip">AWS S3</span>
+          <span class="chip">MongoDB</span>
+          <span class="chip">React.js</span>
+          <span class="chip">MCA · 9.09 GPA</span>
+        </div>
+      </div>
+
+      <!-- Skills -->
+      <section id="skills" class="fade-in">
+        <div class="section-label">Technical Skills</div>
+        <div class="skills-grid">
+          <div class="skill-card"><div class="skill-cat">Languages</div><div class="skill-tags">Java, Python, SQL, JavaScript</div></div>
+          <div class="skill-card"><div class="skill-cat">Backend</div><div class="skill-tags">Spring Boot, Hibernate, Maven, REST APIs, JWT</div></div>
+          <div class="skill-card"><div class="skill-cat">Frontend</div><div class="skill-tags">React.js, HTML, CSS</div></div>
+          <div class="skill-card"><div class="skill-cat">Databases</div><div class="skill-tags">MySQL, MongoDB, Oracle, H2</div></div>
+          <div class="skill-card"><div class="skill-cat">Testing</div><div class="skill-tags">JUnit, Postman, Selenium, TestNG, Automation Testing</div></div>
+          <div class="skill-card"><div class="skill-cat">Cloud &amp; Tools</div><div class="skill-tags">AWS S3, Razorpay, IntelliJ IDEA, Eclipse, PowerBI, Tableau</div></div>
+          <div class="skill-card"><div class="skill-cat">Core CS</div><div class="skill-tags">Data Structures, Algorithms, OOP, DBMS</div></div>
+          <div class="skill-card"><div class="skill-cat">Soft Skills</div><div class="skill-tags">Team Collaboration, Communication, Problem Solving, Technical Documentation</div></div>
+        </div>
+      </section>
+
+      <!-- Projects -->
+      <section id="projects" class="fade-in">
+        <div class="section-label">Projects</div>
+        <div class="project-list">
+
+          <div class="project-card">
+            <div class="project-header">
+              <div class="project-name">Online Food Delivery Application</div>
+              <div class="project-stack">Java · Spring Boot · React.js · AWS S3</div>
+            </div>
+            <ul class="project-bullets">
+              <li>Designed and implemented 15+ RESTful APIs for authentication, order management, and payment processing</li>
+              <li>Developed modular backend architecture using Controller-Service-Repository pattern for maintainability and scalability</li>
+              <li>Implemented JWT-based authentication and Role-Based Access Control (RBAC) to secure application endpoints</li>
+              <li>Integrated AWS S3 for media storage and Razorpay payment gateway for transaction processing</li>
+              <li>Performed API validation and automated unit testing using JUnit and Postman to ensure transaction reliability before deployment</li>
+            </ul>
+          </div>
+
+          <div class="project-card">
+            <div class="project-header">
+              <div class="project-name">Retail Billing Application</div>
+              <div class="project-stack">Java · Spring Boot · React.js · JWT</div>
+            </div>
+            <ul class="project-bullets">
+              <li>Built and deployed RESTful backend services consumed by a React frontend with clear separation of concerns</li>
+              <li>Implemented secure authentication flows using JWT and role-based authorisation mechanisms</li>
+              <li>Documented API contracts, authentication workflows, and deployment steps to support team collaboration</li>
+              <li>Conducted systematic integration testing before production releases to ensure correctness and reliability</li>
+            </ul>
+          </div>
+
+          <div class="project-card">
+            <div class="project-header">
+              <div class="project-name">Expense Tracker API</div>
+              <div class="project-stack">Java · Spring Boot · H2</div>
+            </div>
+            <ul class="project-bullets">
+              <li>Developed a RESTful CRUD API with Spring Boot and H2, writing clean controller and service layers following modular architecture best practices</li>
+              <li>Troubleshot and debugged edge-case failures in retrieval and update endpoints, improving overall application reliability and response consistency</li>
+            </ul>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Experience -->
+      <section id="experience" class="fade-in">
+        <div class="section-label">Experience</div>
+        <div class="exp-card">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role">Full-Stack Web Development Intern</div>
+              <div class="exp-company">KodNest</div>
+            </div>
+            <div class="exp-date">Jul 2024 – Mar 2025</div>
+          </div>
+          <ul class="exp-bullets">
+            <li>Designed and developed scalable web applications using Java, Spring Boot, HTML, CSS, JavaScript, and MySQL</li>
+            <li>Integrated RESTful APIs to connect front-end interfaces with back-end services, improving application responsiveness and data flow</li>
+            <li>Participated in the complete SDLC — requirements analysis, design, coding, testing, and deployment of production-ready features</li>
+            <li>Troubleshot and debugged application issues, reducing defect resolution time and improving overall system reliability</li>
+            <li>Collaborated with cross-functional teams on code reviews and best-practice adherence</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Education & Certifications -->
+      <section id="education" class="fade-in">
+        <div class="section-label">Education</div>
+        <div class="edu-timeline">
+
+          <div class="edu-row">
+            <div class="edu-card edu-card--highlight">
+              <div class="edu-badge">PG</div>
+              <div class="edu-body">
+                <div class="edu-deg">Master of Computer Applications (MCA)</div>
+                <div class="edu-uni">Visvesvaraya Technological University, Mysore · 2022–2024</div>
+                <div class="edu-score-row"><div class="edu-gpa">9.09</div><div class="edu-gpa-label">CGPA / 10.0</div></div>
+              </div>
+            </div>
+            <div class="edu-card">
+              <div class="edu-badge">UG</div>
+              <div class="edu-body">
+                <div class="edu-deg">Bachelor of Science (B.Sc)</div>
+                <div class="edu-uni">Maharanis Science College for Women, Mysore</div>
+                <div class="edu-score-row"><div class="edu-gpa">8.9</div><div class="edu-gpa-label">CGPA / 10.0</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="edu-row">
+            <div class="edu-card">
+              <div class="edu-badge">PUC</div>
+              <div class="edu-body">
+                <div class="edu-deg">Pre-University Certificate</div>
+                <div class="edu-uni">BGS Girls PU College, Mysore</div>
+                <div class="edu-score-row"><div class="edu-gpa">83.17<span style="font-size:1rem">%</span></div><div class="edu-gpa-label">Percentage</div></div>
+              </div>
+            </div>
+            <div class="edu-card">
+              <div class="edu-badge">10th</div>
+              <div class="edu-body">
+                <div class="edu-deg">Secondary School (SSLC)</div>
+                <div class="edu-uni">Sri Vivekananda High School, Hanur</div>
+                <div class="edu-score-row"><div class="edu-gpa">95.2<span style="font-size:1rem">%</span></div><div class="edu-gpa-label">Percentage</div></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="section-label" style="margin-top:2.5rem">Certifications</div>
+        <div class="info-card">
+          <ul class="cert-list">
+            <li>
+              <span>Software Engineering</span>
+              <a class="cert-issuer cert-link" href="https://www.theforage.com/completion-certificates/fgHAi6dLhpRsGKyyN/da2T3WZCbMAJD7bNB_fgHAi6dLhpRsGKyyN_B85HAr2jYhtpa8yFa_1770811048353_completion_certificate.pdf" target="_blank" rel="noopener">HPE ↗</a>
+            </li>
+            <li><span>Full-Stack Development</span>
+              <a class="cert-issuer cert-link" href="https://app.kodnest.com/certificate/7cc3b713-42b8-4bcb-9ab2-3608c0e475c3" target="_blank" rel="noopener">KodNest ↗</a>
+            </li>
+            <li><span>AWS Cloud Practitioner Essentials</span>
+              <a class="cert-issuer cert-link" href="https://www.coursera.org/account/accomplishments/verify/UA6YA83HZST5" target="_blank" rel="noopener">Coursera ↗</a>
+            </li>
+            <li>
+              <span>Web Development Fundamentals</span>
+              <a class="cert-issuer cert-link" href="https://www.credly.com/badges/aafc26f2-d599-484c-bf03-173734e5d81d" target="_blank" rel="noopener">IBM ↗</a>
+            </li>
+            <li>
+              <span>Artificial Intelligence Fundamentals</span>
+              <a class="cert-issuer cert-link" href="https://www.credly.com/badges/d321346e-16fd-4265-a477-bd05ad5d0dac" target="_blank" rel="noopener">IBM ↗</a>
+            </li>
+            <li><span>Data Analytics</span>
+              <a class="cert-issuer cert-link" href="https://www.geeksforgeeks.org/certificate/fdc3b8d8eed2b39bbcef833c0873e553" target="_blank" rel="noopener">GeeksforGeeks ↗</a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Publication -->
+      <div class="pub-card fade-in">
+        <div class="pub-label">Research Publication</div>
+        <div class="pub-title">"Detection of Glaucoma from Fundus Images using Deep Learning Techniques"</div>
+        <div class="pub-meta">State-Level Conference on Emerging Trends in CS &amp; Technologies · ISBN: 978-81-973801-3-6</div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer id="contact">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-name">Priyanka B.</div>
+        <div class="footer-links">
+          <a class="contact-item" href="mailto:priyankabasavaraju2000@gmail.com">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.2"/><path d="M1 5l7 5 7-5" stroke="currentColor" stroke-width="1.2"/></svg>
+            priyankabasavaraju2000@gmail.com
+          </a>
+          <a class="contact-item" href="tel:+918088385504">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 2h3l1 4-2 1a10 10 0 004 4l1-2 4 1v3a1 1 0 01-1 1C6 14 2 10 2 3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>
+            +91 80883 85504
+          </a>
+          <a class="contact-item" href="https://www.linkedin.com/in/priyankabasavaraju/" target="_blank" rel="noopener">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="14" height="14" rx="3" stroke="currentColor" stroke-width="1.2"/><path d="M5 7v4M5 5v.01M8 11V8.5A1.5 1.5 0 0111 10v1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+            LinkedIn
+          </a>
+          <a class="contact-item" href="https://github.com/PriyaBasavaraju2000/" target="_blank" rel="noopener">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 00-2.21 13.64c.35.06.48-.15.48-.34v-1.2C4.09 13.6 3.68 12 3.68 12c-.32-.8-.77-1.01-.77-1.01-.63-.43.05-.42.05-.42.7.05 1.06.71 1.06.71.62 1.06 1.62.75 2.01.57.06-.44.24-.75.44-.92-1.54-.18-3.16-.77-3.16-3.42 0-.76.27-1.38.71-1.86-.07-.18-.31-.88.07-1.84 0 0 .58-.19 1.9.71A6.6 6.6 0 018 5.02c.59 0 1.18.08 1.73.23 1.31-.9 1.89-.71 1.89-.71.38.96.14 1.66.07 1.84.44.49.71 1.1.71 1.86 0 2.66-1.63 3.24-3.17 3.41.25.21.47.64.47 1.29v1.91c0 .19.13.4.48.34A7 7 0 008 1z" stroke="currentColor" stroke-width="1" fill="none"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+      <div class="footer-copy">© 2025 Priyanka B. · Software Engineer · Bengaluru, India</div>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
